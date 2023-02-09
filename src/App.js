@@ -4,24 +4,45 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [datafetch, setDatafetch] = useState([]);
   const [popup, setpopup] = useState(false);
-  const { register, control, handleSubmit } = useForm({
-    defaultValues: {
-      test: [{ data: "" }],
-    },
-  });
+  const[inputData,setinputData]=useState([]);
+  const[operator,setOperator]=useState('')
+  const { register, control, handleSubmit } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
-  });
 
-  const onSubmit = (data) => console.log("data", data);
+  });
+ 
+
+ 
+  
+
+  const onSubmit = (data) =>{ 
+  console.log(data)
+  data.test.map((x)=>{
+    
+    setinputData(inputData=>[...inputData,x.data])
+  })
+  setOperator(data.operator);
+  }
+ 
+console.log(operator);
+console.log(inputData);
+
+// const handlefilter=()=>{
+//   if()
+// }
+
+
+
+
 
   useEffect(() => {
     axios.get("https://jsonplaceholder.typicode.com/comments").then((x) => {
-      setData(x.data);
-      console.log(x.data);
+      setDatafetch(x.data);
+      // console.log(x.data);
     });
   }, []);
 
@@ -33,17 +54,19 @@ function App() {
   return (
     <div className="app">
       <div className="border">
-        {data.map((x) => (
+        {datafetch
+        .map((x) => (
           <>
             <div className="data" key={x.id}>
-              <p>postId{x.postId}</p>
-              <p>email{x.email}</p>
+              <p>postId:{x.postId}</p>
+              <p>name:{x.name}</p>
+              <p>email:{x.email}</p>
             </div>
           </>
         ))}
       </div>
-      <div onClick={(e) => handleToggle(e)}>
-        <p className="app__filter">filter</p>
+      <div >
+        <p className="app__filter" onClick={(e) => handleToggle(e)}>filter</p>
         {popup && (
           <div className="popup__filter">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,6 +74,10 @@ function App() {
                 {fields.map((item, index) => {
                   return (
                     <li key={item.id}>
+                      <select {...register("operator")}>
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                      </select>
                       <input
                         {...register(`test.${index}.data`, { required: true })}
                       />
@@ -66,7 +93,7 @@ function App() {
                 <button
                   type="button"
                   onClick={() => {
-                    append({ data: "appendBill" });
+                    append();
                   }}
                 >
                   append
