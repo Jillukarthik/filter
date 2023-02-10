@@ -8,11 +8,11 @@ function App() {
   const [popup, setpopup] = useState(false);
   const[inputData,setinputData]=useState([]);
   const[operator,setOperator]=useState('')
+  const[filterData,setfilterData]=useState([]);
   const { register, control, handleSubmit } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
-
   });
  
 
@@ -21,23 +21,39 @@ function App() {
 
   const onSubmit = (data) =>{ 
   console.log(data)
+  let arr=[]
   data.test.map((x)=>{
-    
-    setinputData(inputData=>[...inputData,x.data])
+    arr.push(x.data)
+    setinputData(arr)
   })
   setOperator(data.operator);
+  handlefilter()
   }
  
-console.log(operator);
-console.log(inputData);
+// console.log(operator);
+// console.log(inputData);
 
-// const handlefilter=()=>{
-//   if()
-// }
-
-
-
-
+const handlefilter=()=>{
+if(!operator){
+  setfilterData(datafetch)
+  console.log("heyy")
+}
+ else if(operator=="AND"){
+  console.log("and")
+    let arr1=datafetch.filter((x,i)=>{
+     
+      x.name.includes(inputData[i])
+    })
+    setfilterData(arr1)
+     console.log("1", setfilterData(arr1))
+  }
+  else{
+    console.log("or")
+    let arr2=datafetch.filter((x,i)=>x.name.includes(inputData[i]))
+    // setfilterData(datafetch)
+    console.log("2,",arr2)
+  }
+}
 
   useEffect(() => {
     axios.get("https://jsonplaceholder.typicode.com/comments").then((x) => {
@@ -54,12 +70,20 @@ console.log(inputData);
   return (
     <div className="app">
       <div className="border">
-        {datafetch
+        {filterData
+        // .filter((x) => {
+        //   if (inputData.length==0) {
+        //     return x;
+        //   } else if (inputData.includes(x.body)) {
+        //     // input1.toLowerCase().includes(x.title.toLowerCase()))
+        //     return x;
+        //   }
+        // })
         .map((x) => (
           <>
             <div className="data" key={x.id}>
               <p>postId:{x.postId}</p>
-              <p>name:{x.name}</p>
+              <p>name:{x.body}</p>
               <p>email:{x.email}</p>
             </div>
           </>
