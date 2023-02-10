@@ -6,57 +6,64 @@ import "./App.css";
 function App() {
   const [datafetch, setDatafetch] = useState([]);
   const [popup, setpopup] = useState(false);
-  const[inputData,setinputData]=useState([]);
-  const[operator,setOperator]=useState('')
-  const[filterData,setfilterData]=useState([]);
+  const [inputData, setinputData] = useState([]);
+  const [operator, setOperator] = useState("");
+  const [filterData, setfilterData] = useState([]);
   const { register, control, handleSubmit } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
   });
- 
 
- 
-  
+  const onSubmit = (data) => {
+    console.log(data);
+    let cleanData = data.test.map((x) => x.data);
+    setinputData(cleanData);
+    setOperator(data.operator);
+    handlefilter();
+  };
 
-  const onSubmit = (data) =>{ 
-  console.log(data)
-  let arr=[]
-  data.test.map((x)=>{
-    arr.push(x.data)
-    setinputData(arr)
-  })
-  setOperator(data.operator);
-  handlefilter()
-  }
- 
-// console.log(operator);
-// console.log(inputData);
+  // console.log(operator);
+  // console.log(inputData);
+  // let output = [];
 
-const handlefilter=()=>{
-if(!operator){
-  setfilterData(datafetch)
-  console.log("heyy")
-}
- else if(operator=="AND"){
-  console.log("and")
-    let arr1=datafetch.filter((x,i)=>{
-     
-      x.name.includes(inputData[i])
-    })
-    setfilterData(arr1)
-     console.log("1", setfilterData(arr1))
-  }
-  else{
-    console.log("or")
-    let arr2=datafetch.filter((x,i)=>x.name.includes(inputData[i]))
-    // setfilterData(datafetch)
-    console.log("2,",arr2)
-  }
-}
+  const handlefilter = () => {
+    if (!operator) {
+      setfilterData(datafetch);
+      // console.log("heyy")
+    } else if (operator == "OR") {
+      console.log("and");
+      let output=[]
+
+       datafetch.forEach((x) => {
+          
+        // console.log(x.name)
+        inputData.forEach((item) => {
+          console.log(item, "ïtem")
+      
+          if (x.name.includes(item)) {
+            output.push(x);
+            // break;
+            // return x
+          }
+        });
+
+        console.log(output, "output")
+
+      });
+
+
+      console.log(output, "sdsdsd");
+      setfilterData(output);
+    } else {
+      // console.log("or");
+      let arr2 = datafetch.filter((x, i) => x.name.includes(inputData[i]));
+      // setfilterData(datafetch)
+    }
+  };
 
   useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/comments").then((x) => {
+    axios.get("https://jsonplaceholder.typicode.com/users").then((x) => {
       setDatafetch(x.data);
       // console.log(x.data);
     });
@@ -70,27 +77,20 @@ if(!operator){
   return (
     <div className="app">
       <div className="border">
-        {filterData
-        // .filter((x) => {
-        //   if (inputData.length==0) {
-        //     return x;
-        //   } else if (inputData.includes(x.body)) {
-        //     // input1.toLowerCase().includes(x.title.toLowerCase()))
-        //     return x;
-        //   }
-        // })
-        .map((x) => (
+        {filterData.map((x) => (
           <>
             <div className="data" key={x.id}>
-              <p>postId:{x.postId}</p>
-              <p>name:{x.body}</p>
+              <p>postId:{x.username}</p>
+              <p>name:{x.name}</p>
               <p>email:{x.email}</p>
             </div>
           </>
         ))}
       </div>
-      <div >
-        <p className="app__filter" onClick={(e) => handleToggle(e)}>filter</p>
+      <div>
+        <p className="app__filter" onClick={(e) => handleToggle(e)}>
+          filter
+        </p>
         {popup && (
           <div className="popup__filter">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,6 +116,7 @@ if(!operator){
               <section>
                 <button
                   type="button"
+                  className={fields.length === 5 && "buttonappend__none"}
                   onClick={() => {
                     append();
                   }}
