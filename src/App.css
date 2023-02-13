@@ -1,22 +1,22 @@
-.app {
+.filter {
   display: flex;
   justify-content: space-around;
   background-color: cadetblue;
 }
 
-.border {
+.filter__border {
   /* border: 2px solid black; */
   display: flex;
   width: 80%;
   flex-wrap: wrap;
 }
 
-.data {
+.filter__data {
   width: 350px;
   border: 2px solid black;
 }
 
-.app__filter {
+.filter__toggle{
   border: 2px solid;
   background-color: rgb(89, 89, 248);
   width: max-content;
@@ -35,4 +35,8 @@
   height: 300px;
   background-color: azure;
   border: none;
+}
+
+.buttonappend__none{
+  display:none;
 }
