@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
 import "./App.css";
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 function App() {
   const [datafetch, setDatafetch] = useState([]);
@@ -14,6 +17,9 @@ function App() {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
+    defaultValues: {
+      test: [{ test: "Bill" }],
+    },
   });
 
   const onSubmit = (data) => {
@@ -74,6 +80,22 @@ function App() {
 
   return (
     <div className="filter">
+      <div className="filter__header">
+        <div className="filter__highlights">
+          <h3>Highlights</h3>
+        </div>
+        <div className="filter__icons">
+          <span>
+            <FilterListIcon style={{ marginTop: "5px" }} />
+          </span>
+          <span className="filter__toggle" onClick={(e) => handleToggle(e)}>
+            Filter
+          </span>
+          <span>
+            <ArrowDropDownIcon style={{ marginLeft: "10px" }} />
+          </span>
+        </div>
+      </div>
       <div className="filter__border">
         {dataShow
           ? datafetch.map((x) => (
@@ -96,27 +118,28 @@ function App() {
             ))}
       </div>
       <div>
-        <p className="filter__toggle" onClick={(e) => handleToggle(e)}>
+        {/* <p className="filter__toggle" onClick={(e) => handleToggle(e)}>
           filter
-        </p>
+        </p> */}
         {popup && (
           <div className="popup__filter">
             <form onSubmit={handleSubmit(onSubmit)}>
+
               <ul>
                 {fields.map((item, index) => {
                   return (
                     <li key={item.id}>
-                      <select {...register("operator")}>
+                      <select {...register("operator")} className="filter__select">
                         <option value="AND">AND</option>
                         <option value="OR">OR</option>
                       </select>
+                      <div  className="filter__field">
                       <input
-                        {...register(`test.${index}.data`, { required: true })}
-                      />
+                        {...register(`test.${index}.data`, { required: true }) }
+                        className="filter__input"
+                      /></div>
 
-                      <button type="button" onClick={() => remove(index)}>
-                        Delete
-                      </button>
+                      <DeleteOutlineIcon onClick={() => remove(index)} />
                     </li>
                   );
                 })}
