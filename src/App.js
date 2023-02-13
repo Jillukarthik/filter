@@ -9,6 +9,7 @@ function App() {
   const [inputData, setinputData] = useState([]);
   const [operator, setOperator] = useState("");
   const [filterData, setfilterData] = useState([]);
+  const [dataShow, setDatashow] = useState(true);
   const { register, control, handleSubmit } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -21,6 +22,7 @@ function App() {
     setinputData(cleanData);
     setOperator(data.operator);
     handlefilter();
+    setDatashow(false);
   };
 
   // console.log(operator);
@@ -28,37 +30,33 @@ function App() {
   // let output = [];
 
   const handlefilter = () => {
-    if (!operator) {
-      setfilterData(datafetch);
-      // console.log("heyy")
-    } else if (operator == "OR") {
-      console.log("and");
-      let output=[]
-
-       datafetch.forEach((x) => {
-          
-        // console.log(x.name)
+    if (operator == "OR") {
+      console.log("or");
+      let output = [];
+      datafetch.forEach((x) => {
         inputData.forEach((item) => {
-          console.log(item, "ïtem")
-      
+          console.log(item, "ïtem");
           if (x.name.includes(item)) {
             output.push(x);
-            // break;
-            // return x
           }
         });
-
-        console.log(output, "output")
-
+        console.log(output, "output");
       });
-
-
       console.log(output, "sdsdsd");
       setfilterData(output);
     } else {
-      // console.log("or");
-      let arr2 = datafetch.filter((x, i) => x.name.includes(inputData[i]));
-      // setfilterData(datafetch)
+      let output = [];
+      datafetch.forEach((x) => {
+        inputData.forEach((item, index, arr) => {
+          if (x.name.includes(item)) {
+            output.push(x);
+            arr.length = index + 1;
+          }
+        });
+      });
+
+      setfilterData(output);
+      console.log("AND");
     }
   };
 
@@ -75,20 +73,30 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <div className="border">
-        {filterData.map((x) => (
-          <>
-            <div className="data" key={x.id}>
-              <p>postId:{x.username}</p>
-              <p>name:{x.name}</p>
-              <p>email:{x.email}</p>
-            </div>
-          </>
-        ))}
+    <div className="filter">
+      <div className="filter__border">
+        {dataShow
+          ? datafetch.map((x) => (
+              <>
+                <div className="filter__data" key={x.id}>
+                  <p>postId:{x.username}</p>
+                  <p>name:{x.name}</p>
+                  <p>email:{x.email}</p>
+                </div>
+              </>
+            ))
+          : filterData.map((x) => (
+              <>
+                <div className="filter__data" key={x.id}>
+                  <p>postId:{x.username}</p>
+                  <p>name:{x.name}</p>
+                  <p>email:{x.email}</p>
+                </div>
+              </>
+            ))}
       </div>
       <div>
-        <p className="app__filter" onClick={(e) => handleToggle(e)}>
+        <p className="filter__toggle" onClick={(e) => handleToggle(e)}>
           filter
         </p>
         {popup && (
@@ -130,6 +138,7 @@ function App() {
             <button
               onClick={() => {
                 setpopup(false);
+                remove([1, 2, 3, 4, 5]);
               }}
             >
               clear
