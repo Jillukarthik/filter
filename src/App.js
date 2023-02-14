@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
 import "./App.css";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Switch from "@mui/material/Switch";
 
 function App() {
   const [datafetch, setDatafetch] = useState([]);
@@ -13,15 +14,21 @@ function App() {
   const [operator, setOperator] = useState("");
   const [filterData, setfilterData] = useState([]);
   const [dataShow, setDatashow] = useState(true);
-  const { register, control, handleSubmit } = useForm();
+  const {
+    register,
+    control,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      test: [{ data: "" }],
+    },
+  });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "test",
-    defaultValues: {
-      test: [{ test: "Bill" }],
-    },
   });
-
+  console.log(isValid, "fcgvhbjkhgfhjklmjhgcvbn");
   const onSubmit = (data) => {
     console.log(data);
     let cleanData = data.test.map((x) => x.data);
@@ -46,13 +53,13 @@ function App() {
             output.push(x);
           }
         });
-        console.log(output, "output");
+        // console.log(output, "output");
       });
-      console.log(output, "sdsdsd");
+      // console.log(output, "sdsdsd");
       setfilterData(output);
     } else {
       let output = [];
-      datafetch.forEach((x) => {
+      datafetch.forEach((x, dindex) => {
         inputData.forEach((item, index, arr) => {
           if (x.name.includes(item)) {
             output.push(x);
@@ -62,14 +69,20 @@ function App() {
       });
 
       setfilterData(output);
-      console.log("AND");
+    }
+  };
+
+  const toggleAdvanceSwitch = () => {
+    if (fields.length === 1) {
+      append();
+    } else if (fields.length >= 2) {
+      remove([1, 2, 3, 4, 5]);
     }
   };
 
   useEffect(() => {
     axios.get("https://jsonplaceholder.typicode.com/users").then((x) => {
       setDatafetch(x.data);
-      // console.log(x.data);
     });
   }, []);
 
@@ -77,6 +90,8 @@ function App() {
   const handleToggle = () => {
     setpopup(true);
   };
+
+  const label = { inputProps: { "aria-label": "Switch demo" } };
 
   return (
     <div className="filter">
@@ -118,54 +133,98 @@ function App() {
             ))}
       </div>
       <div>
-        {/* <p className="filter__toggle" onClick={(e) => handleToggle(e)}>
-          filter
-        </p> */}
         {popup && (
           <div className="popup__filter">
             <form onSubmit={handleSubmit(onSubmit)}>
-
               <ul>
                 {fields.map((item, index) => {
                   return (
-                    <li key={item.id}>
-                      <select {...register("operator")} className="filter__select">
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                      </select>
-                      <div  className="filter__field">
-                      <input
-                        {...register(`test.${index}.data`, { required: true }) }
-                        className="filter__input"
-                      /></div>
+                    <li key={index} style={{ listStyle: "none" }}>
+                      <div className="filter__inputdata">
+                        <div>
+                          <select
+                            style={{ appearance: "none", borderRadius: "4px" }}
+                            {...register("operator")}
+                            className="filter__select"
+                          >
+                            <option value="AND">AND</option>
+                            <option value="OR">OR</option>
+                          </select>
+                        </div>
 
-                      <DeleteOutlineIcon onClick={() => remove(index)} />
+                        <div className="filter__field">
+                          <input
+                            {...register(`test.${index}.data`, {
+                              required: {
+                                value: true,
+                                message: "required",
+                              },
+                            })}
+                            className="filter__input"
+                            placeholder="Enter highlights(min 1 character)"
+                          />
+                        </div>
+                        <div className="filter__delete_icon">
+                          {index !== 0 && (
+                            <DeleteOutlineIcon onClick={() => remove(index)} />
+                          )}
+                        </div>
+                      </div>
                     </li>
                   );
                 })}
               </ul>
+              <div></div>
               <section>
                 <button
                   type="button"
-                  className={fields.length === 5 && "buttonappend__none"}
+                  style={{
+                    position: "static",
+                    marginTop: "12px",
+                    backgroundColor: "#fff",
+                    color: "#6f73d2",
+                    border: "2px solid #dddddd",
+                    width: "80px",
+                    height: "30px",
+                  }}
+                  className={
+                    (fields.length === 1 && "buttonappend__none") ||
+                    (fields.length === 5 && "buttonappend__none")
+                  }
+                  id="filter__add"
                   onClick={() => {
                     append();
                   }}
                 >
-                  append
+                  +add
                 </button>
+                <div className="filter__toggle__advance">
+                  <div className="filter__toggle__switch">
+                    <Switch {...label} onChange={toggleAdvanceSwitch} />
+                    <span>Advanced </span>
+                  </div>
+                  <div>
+                    <button
+                      className="filter__clear"
+                      onClick={() => {
+                        setpopup(false);
+                        remove([1, 2, 3, 4, 5]);
+                      }}
+                    >
+                      Clear filter
+                    </button>
+                    <input
+                      disabled={!isValid}
+                      type="submit"
+                      className={
+                        !isValid ? "disabledfilter__apply" : "filter__apply"
+                      }
+                      value="Apply filter"
+                    />
+                  </div>
+                </div>
               </section>
-
-              <input type="submit" />
             </form>
-            <button
-              onClick={() => {
-                setpopup(false);
-                remove([1, 2, 3, 4, 5]);
-              }}
-            >
-              clear
-            </button>
           </div>
         )}
       </div>
