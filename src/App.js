@@ -18,6 +18,8 @@ function App() {
     register,
     control,
     formState: { isValid },
+    getValues,
+    setValue,
     handleSubmit,
   } = useForm({
     defaultValues: {
@@ -28,7 +30,6 @@ function App() {
     control,
     name: "test",
   });
-  console.log(isValid, "fcgvhbjkhgfhjklmjhgcvbn");
   const onSubmit = (data) => {
     console.log(data);
     let cleanData = data.test.map((x) => x.data);
@@ -53,21 +54,27 @@ function App() {
             output.push(x);
           }
         });
-        // console.log(output, "output");
-      });
-      // console.log(output, "sdsdsd");
-      setfilterData(output);
-    } else {
-      let output = [];
-      datafetch.forEach((x, dindex) => {
-        inputData.forEach((item, index, arr) => {
-          if (x.name.includes(item)) {
-            output.push(x);
-            arr.length = index + 1;
-          }
-        });
       });
 
+      setfilterData(output);
+    } else {
+      console.log("AND");
+      let output = [];
+
+      datafetch.forEach((x, index) => {
+        let i = 0;
+        inputData.forEach((item, index, arr) => {
+          if (x.name.includes(item)) {
+            i = 0;
+          } else {
+            i = 1;
+          }
+        });
+
+        if (i == 0) {
+          output.push(x);
+        }
+      });
       setfilterData(output);
     }
   };
@@ -93,6 +100,10 @@ function App() {
 
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
+  // const operatorOption = [
+  //   { value: "and", operator: "And" },
+  //   { value: "or", operator: "Or" },
+  // ];
   return (
     <div className="filter">
       <div className="filter__header">
@@ -142,16 +153,34 @@ function App() {
                     <li key={index} style={{ listStyle: "none" }}>
                       <div className="filter__inputdata">
                         <div>
+                          {index !== 0 && (
+                            <select
+                              style={{
+                                appearance: "none",
+                                borderRadius: "4px",
+                              }}
+                              {...register("operator")}
+                              className="filter__select"
+                            >
+                              <option value="AND">AND</option>
+                              <option value="OR">OR</option>
+                            </select>
+                          )}
+                        </div>
+                        <div>
                           <select
-                            style={{ appearance: "none", borderRadius: "4px" }}
-                            {...register("operator")}
-                            className="filter__select"
+                            style={{
+                              appearance: "none",
+                              borderRadius: "4px",
+                            }}
+                            {...register("highlights")}
+                            className="filter__highlights"
                           >
-                            <option value="AND">AND</option>
-                            <option value="OR">OR</option>
+                            <option value="Highlights">Highlights</option>
+                            <option value="Speaker">Speaker</option>
+                            <option value="Tag">Tag</option>
                           </select>
                         </div>
-
                         <div className="filter__field">
                           <input
                             {...register(`test.${index}.data`, {
@@ -206,9 +235,12 @@ function App() {
                   <div>
                     <button
                       className="filter__clear"
+                      type="reset"
                       onClick={() => {
+                        setDatashow(true);
                         setpopup(false);
                         remove([1, 2, 3, 4, 5]);
+                        setValue(`test.${0}.data`, "");
                       }}
                     >
                       Clear filter
