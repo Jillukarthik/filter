@@ -118,6 +118,7 @@
   border: none;
   position: relative;
   left: -13px;
+  cursor: pointer;
 }
 
 .filter__apply {
@@ -129,6 +130,7 @@
   border: none;
   position: relative;
   left: -7px;
+  cursor: pointer;
 }
 
 #filter__add {
@@ -137,12 +139,10 @@
   border: 2px solid #dddddd;
   width: 80px;
   height: 30px;
+  cursor: pointer;
 }
 
-/* .filter__delete {
-  display: none !important ;
-  color: #6f73d2;
-} */
+
 
 .disabledfilter__apply {
   background-color: #6f73d2;
@@ -154,4 +154,5 @@
   position: relative;
   left: -7px;
   opacity: 0.5;
+  cursor: not-allowed;
 }
