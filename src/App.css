@@ -1,30 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Roboto:wght@300&display=swap");
 
-.filter {
-  /* font-family: 'Poppins', sans-serif; */
-  font-family: "Roboto", sans-serif;
-  /* display: flex;
-  justify-content: space-around;
-  background-color: cadetblue; */
+* {
+  font-family: "Roboto";
 }
 
 .filter__header {
   display: flex;
   justify-content: space-between;
 }
+.filter__toggle{
+  font-weight: 1000;
+}
 
 .filter__icons {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 34px;
+  height: 29px;
+  padding: 4px 8px;
   padding: 4px 8px;
   border: 1px solid #6f73d2;
-  border-radius: 12px;
+  border-radius: 8px;
   color: #190041;
+
   font-family: "Roboto", sans-serif;
   cursor: pointer;
   font-weight: 500;
+}
+
+.filter__highlights {
+  position: relative;
+  left: 13px;
+  border-radius: nullpx;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: 0.0015em;
+  color: #190041;
 }
 
 .filter__icons:hover {
@@ -33,64 +46,212 @@
 
 .filter__border {
   display: flex;
-  width: 80%;
   flex-wrap: wrap;
 }
 
 .filter__data {
-  width: 350px;
-  border: 2px solid black;
-  margin: 8px;
-  border-radius: 12px;
-  padding: 6px;
+  width: 279px;
+  height: 275px;
+  background: #f4f7fc;
+  border: 1px solid #e9f0fb;
+  border-radius: 4px;
+  margin-left: 12px;
+  margin-top: 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.filter__dataimage {
+  width: 263px;
+  height: 129px;
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.filterdata__playtime {
+  padding: 2px 8px;
+  gap: 8px;
+  width: 40px;
+  height: 20px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  margin-left: 8px;
+}
+
+.filterdata__playtimedata {
+  width: 24px;
+  height: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.004em;
+}
+.filterdata__name {
+  width: 84px;
+  height: 22px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 1000;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.0025em;
+  color: #190041;
+  margin-left: 13px;
+}
+
+.filterdata__footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 39px;
+  margin-left: 12px;
+}
+
+.filterdata__footericons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .popup__filter {
-  text-align: right;
   position: absolute;
-  top: 62px;
-  right: 80px;
+  width: 525px;
+  max-height: 359px;
+  min-height: auto;
+  left: 979px;
+  top: 48px;
+  background: #ffffff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
   z-index: 1;
-  border: 2px solid;
-  width: 450px;
-  min-height: 124px;
-  max-height: 500px;
-  background-color: #ffffff;
-  border: 1px solid lightblue;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgb(25, 0, 65);
-  border-radius: 12px;
 }
+
 .buttonappend__none {
   display: none;
 }
 
-.filter__field > .filter__input {
-  border: none;
+.filter__inputdata {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 24px 5px;
+  gap: 8px;
+  width: 372px;
+  height: 33px;
+  background: #ffffff;
+  border-radius: 4px;
+  margin-left: -29px;
+  margin-top: 10px;
 }
+
+
+::placeholder{
+  font-weight: 1000;
+}
+.filter__inputdataafter {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 24px 5px;
+  gap: 8px;
+  width: 76px;
+  height: 33px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  box-shadow: 0px 1.25px 4px rgba(0, 0, 0, 0.17);
+  border-radius: 4px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  position: relative;
+  left: 91px;
+}
+
 .filter__input {
-  border: 2px solid black;
-  width: 228px;
-  height: 34px;
-  margin-top: 8px;
-  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 8px 5px 12px;
+  gap: 8px;
+  width: 357px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #9a9a9b;
+  border-radius: 4px;
+  margin-left: 12px;
+}
+
+.filter__inputafter {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 8px 5px 12px;
+  gap: 8px;
+  width: 270px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #9a9a9b;
+  border-radius: 4px;
+}
+
+.filter__highlightselect {
+  width: 76px;
+  height: 33px;
+  font-weight: 1000;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.0025em;
+  color: #414042;
+  border: 1px solid #dddddd;
+  box-shadow: 0px 1.25px 4px rgba(0, 0, 0, 0.17);
+  border-radius: 4px;
+  appearance: none;
+  text-align: center;
 }
 
 .filter__select {
-  height: 34px;
-  position: relative;
-  min-width: 53px;
-  right: -33px;
-  top: 4px;
+  width: 54px;
+  height: 33px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  box-shadow: 0px 1.25px 4px rgba(0, 0, 0, 0.17);
+  border-radius: 4px;
+  appearance: none;
+  font-weight: 1000;
+  align-items: center;
   text-align: center;
 }
-.filter__inputdata {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: relative;
-  top: 12px;
+
+.filter__highlightselectoption {
+  width: 28px;
+  height: 22px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 1000;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.0025em;
+  color: #190041;
+}
+
+.filter__selectoption {
+  width: 25px;
+  height: 22px;
+  font-family: "Roboto";
+  font-weight: 1000;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.0025em;
+  color: #190041;
+}
+
+.filter__delete_icon {
+  color: #414042;
 }
 
 .filter__toggle__advance {
@@ -103,10 +264,7 @@
   font-weight: 800;
   align-items: center;
   background-color: #fafafa;
-}
-
-.filter__toggle__switch {
-  margin-left: 70px;
+  height: 48px;
 }
 
 .filter__clear {
@@ -119,6 +277,7 @@
   position: relative;
   left: -13px;
   cursor: pointer;
+  font-weight: 1000;
 }
 
 .filter__apply {
@@ -131,6 +290,7 @@
   position: relative;
   left: -7px;
   cursor: pointer;
+  font-weight: 1000;
 }
 
 #filter__add {
@@ -140,6 +300,10 @@
   width: 80px;
   height: 30px;
   cursor: pointer;
+  position: relative;
+  left: 419px;
+  border-radius: 6px;
+  font-weight: 1000;
 }
 
 
@@ -155,4 +319,5 @@
   left: -7px;
   opacity: 0.5;
   cursor: not-allowed;
+  font-weight: 1000;
 }
