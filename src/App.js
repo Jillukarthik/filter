@@ -6,6 +6,9 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Switch from "@mui/material/Switch";
+import DownloadingIcon from "@mui/icons-material/Downloading";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function App() {
   const [datafetch, setDatafetch] = useState([]);
@@ -39,17 +42,13 @@ function App() {
     setDatashow(false);
   };
 
-  // console.log(operator);
-  // console.log(inputData);
-  // let output = [];
-
   const handlefilter = () => {
     if (operator == "OR") {
-      console.log("or");
+      // console.log("or");
       let output = [];
       datafetch.forEach((x) => {
         inputData.forEach((item) => {
-          console.log(item, "ïtem");
+          // console.log(item, "ïtem");
           if (x.name.includes(item)) {
             output.push(x);
           }
@@ -108,7 +107,7 @@ function App() {
     <div className="filter">
       <div className="filter__header">
         <div className="filter__highlights">
-          <h3>Highlights</h3>
+          <h3 className="hightlights__topic">Highlights</h3>
         </div>
         <div className="filter__icons">
           <span>
@@ -124,23 +123,149 @@ function App() {
       </div>
       <div className="filter__border">
         {dataShow
-          ? datafetch.map((x) => (
+          ? datafetch.map((x, index) => (
               <>
                 <div className="filter__data" key={x.id}>
-                  <p>postId:{x.username}</p>
-                  <p>name:{x.name}</p>
-                  <p>email:{x.email}</p>
+                  <img
+                    src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                    className="filter__dataimage"
+                    alt="imagealt"
+                  />
+                  <div>
+                    <span className="filterdata__playtime">
+                      <small className="filterdata__playtimedata">
+                        00:0{index}
+                      </small>
+                    </span>
+                    <span className="filterdata__name">Login test</span>
+                  </div>
+                  <p style={{ marginLeft: "12px" }}>name:{x.name}</p>
+                  
+                  <div className="filterdata__footer">
+                    <div
+                      style={{
+                        height: "22px",
+                        width: "15px",
+                        backgroundColor: "pink",
+                        borderRadius: "3px",
+                      }}
+                    ></div>
+                    <div className="filterdata__footericons">
+                      <span>
+                        <DownloadingIcon
+                          style={{
+                            position: "relative",
+                            left: "-63px",
+                            fontSize: "larger",
+                            color: "purple",
+                          }}
+                        />
+                      </span>
+                      <span>
+                        {" "}
+                        <IosShareIcon
+                          style={{
+                            position: "relative",
+                            left: "-35px",
+                            fontSize: "larger",
+                          }}
+                        />
+                      </span>
+                      <span
+                        style={{
+                          position: "relative",
+                          left: "-6px",
+                          display: "flex",
+                          alignItems: "center",
+                          border: "1px solid #CCC",
+                          height: "22px",
+                          borderRadius: "4px",
+                          backgroundColor: "white",
+                          width: "34px",
+                          textAlign: "center",
+                          paddingLeft: "12px",
+                        }}
+                      >
+                        {" "}
+                        <ChatBubbleOutlineIcon fontSize="larger" />
+                        <span style={{marginTop:"-3px",fontSize:"smaller",marginLeft:"2px"}}>{index + 1}</span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </>
             ))
-          : filterData.map((x) => (
-              <>
-                <div className="filter__data" key={x.id}>
-                  <p>postId:{x.username}</p>
-                  <p>name:{x.name}</p>
-                  <p>email:{x.email}</p>
+          : filterData.map((x,index) => (
+            <>
+            <div className="filter__data" key={x.id}>
+              <img
+                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                className="filter__dataimage"
+                alt="imagealt"
+              />
+              <div>
+                <span className="filterdata__playtime">
+                  <small className="filterdata__playtimedata">
+                    00:0{index}
+                  </small>
+                </span>
+                <span className="filterdata__name">Login test</span>
+              </div>
+              <p style={{ marginLeft: "12px" }}>name:{x.name}</p>
+              
+              <div className="filterdata__footer">
+                <div
+                  style={{
+                    height: "22px",
+                    width: "15px",
+                    backgroundColor: "pink",
+                    borderRadius: "3px",
+                  }}
+                ></div>
+                <div className="filterdata__footericons">
+                  <span>
+                    <DownloadingIcon
+                      style={{
+                        position: "relative",
+                        left: "-63px",
+                        fontSize: "larger",
+                        color: "purple",
+                      }}
+                    />
+                  </span>
+                  <span>
+                    {" "}
+                    <IosShareIcon
+                      style={{
+                        position: "relative",
+                        left: "-35px",
+                        fontSize: "larger",
+                      }}
+                    />
+                  </span>
+                  <span
+                    style={{
+                      position: "relative",
+                      left: "-6px",
+                      display: "flex",
+                      alignItems: "center",
+                      border: "1px solid #CCC",
+                      height: "22px",
+                      borderRadius: "4px",
+                      backgroundColor: "white",
+                      width: "34px",
+                      textAlign: "center",
+                      paddingLeft: "12px",
+                    }}
+                  >
+                    {" "}
+                    <ChatBubbleOutlineIcon fontSize="larger" />
+                    <span style={{marginTop:"-3px",fontSize:"smaller",marginLeft:"2px"}}>{index + 1}</span>
+                  </span>
                 </div>
-              </>
+              </div>
+            </div>
+          </>
             ))}
       </div>
       <div>
@@ -150,46 +275,77 @@ function App() {
               <ul>
                 {fields.map((item, index) => {
                   return (
-                    <li key={index} style={{ listStyle: "none" }}>
+                    <li
+                      key={index}
+                      style={{ listStyle: "none", color: "#FFFFFF" }}
+                    >
                       <div className="filter__inputdata">
                         <div>
                           {index !== 0 && (
                             <select
-                              style={{
-                                appearance: "none",
-                                borderRadius: "4px",
-                              }}
                               {...register("operator")}
                               className="filter__select"
+                              style={{
+                                marginLeft: index == 0 ? "12px" : "7px",
+                              }}
                             >
-                              <option value="AND">AND</option>
-                              <option value="OR">OR</option>
+                              <option
+                                className="filter__selectoption"
+                                value="AND"
+                              >
+                                And
+                              </option>
+                              <option
+                                value="OR"
+                                className="filter__selectoption"
+                              >
+                                Or
+                              </option>
                             </select>
                           )}
                         </div>
                         <div>
                           <select
-                            style={{
-                              appearance: "none",
-                              borderRadius: "4px",
-                            }}
+                            // style={{
+                            //   appearance: "none",
+                            //   borderRadius: "4px",
+                            // }}
                             {...register("highlights")}
-                            className="filter__highlights"
+                            className="filter__highlightselect"
                           >
-                            <option value="Highlights">Highlights</option>
-                            <option value="Speaker">Speaker</option>
-                            <option value="Tag">Tag</option>
+                            <option
+                              className="filter__highlightselectoption"
+                              value="Highlights"
+                            >
+                              Highlights
+                            </option>
+                            <option
+                              className="filter__highlightselectoption"
+                              value="Speaker"
+                            >
+                              Speaker
+                            </option>
+                            <option
+                              className="filter__highlightselectoption"
+                              value="Tag"
+                            >
+                              Tag
+                            </option>
                           </select>
                         </div>
-                        <div className="filter__field">
+                        <div>
                           <input
+                            className={
+                              index == 0
+                                ? "filter__input"
+                                : "filter__inputafter"
+                            }
                             {...register(`test.${index}.data`, {
                               required: {
                                 value: true,
                                 message: "required",
                               },
                             })}
-                            className="filter__input"
                             placeholder="Enter highlights(min 1 character)"
                           />
                         </div>
@@ -207,15 +363,6 @@ function App() {
               <section>
                 <button
                   type="button"
-                  style={{
-                    position: "static",
-                    marginTop: "12px",
-                    backgroundColor: "#fff",
-                    color: "#6f73d2",
-                    border: "2px solid #dddddd",
-                    width: "80px",
-                    height: "30px",
-                  }}
                   className={
                     (fields.length === 1 && "buttonappend__none") ||
                     (fields.length === 5 && "buttonappend__none")
@@ -225,11 +372,15 @@ function App() {
                     append();
                   }}
                 >
-                  +add
+                  +Add
                 </button>
                 <div className="filter__toggle__advance">
                   <div className="filter__toggle__switch">
-                    <Switch {...label} onChange={toggleAdvanceSwitch} />
+                    <Switch
+                      {...label}
+                      onChange={toggleAdvanceSwitch}
+                      style={{ color: "#6f73d2" }}
+                    />
                     <span>Advanced </span>
                   </div>
                   <div>
